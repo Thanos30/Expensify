@@ -35,21 +35,36 @@ const defaultProps = {
 
 function AmountTextInput(props) {
     return (
-        <TextInput
-            disableKeyboard
-            autoGrow
-            hideFocusedState
-            inputStyle={[styles.iouAmountTextInput, styles.p0, styles.noLeftBorderRadius, styles.noRightBorderRadius]}
-            textInputContainerStyles={[styles.borderNone, styles.noLeftBorderRadius, styles.noRightBorderRadius]}
-            onChangeText={props.onChangeAmount}
-            ref={props.forwardedRef}
-            value={props.formattedAmount}
-            placeholder={props.placeholder}
-            keyboardType={CONST.KEYBOARD_TYPE.NUMBER_PAD}
-            blurOnSubmit={false}
-            selection={props.selection}
-            onSelectionChange={props.onSelectionChange}
-        />
+        <>
+            <TextInput
+                disableKeyboard
+                autoGrow
+                hideFocusedState
+                inputStyle={[styles.iouAmountTextInput, styles.p0, styles.noLeftBorderRadius, styles.noRightBorderRadius, {position: 'absolute'}]}
+                textInputContainerStyles={[styles.borderNone, styles.noLeftBorderRadius, styles.noRightBorderRadius, {position: 'absolute'}]}
+                ref={props.forwardedRef}
+                value={props.formattedAmount}
+                placeholder={props.placeholder}
+                keyboardType={CONST.KEYBOARD_TYPE.NUMBER_PAD}
+                blurOnSubmit={false}
+                onSelectionChange={props.onSelectionChange}
+                editable={false}
+            />
+            <TextInput
+                disableKeyboard
+                autoGrow
+                hideFocusedState
+                inputStyle={[styles.iouAmountTextInput, styles.p0, styles.noLeftBorderRadius, styles.noRightBorderRadius, {color: 'transparent'}]}
+                textInputContainerStyles={[styles.borderNone, styles.noLeftBorderRadius, styles.noRightBorderRadius]}
+                onChangeText={props.onChangeAmount}
+                ref={props.forwardedRef}
+                value={props.formattedAmount}
+                placeholder={props.placeholder}
+                keyboardType={CONST.KEYBOARD_TYPE.NUMBER_PAD}
+                blurOnSubmit={false}
+                onSelectionChange={props.onSelectionChange}
+            />
+        </>
     );
 }
 
