@@ -54,7 +54,7 @@ function AmountTextInput(props) {
                 disableKeyboard
                 autoGrow
                 hideFocusedState
-                inputStyle={[styles.iouAmountTextInput, styles.p0, styles.noLeftBorderRadius, styles.noRightBorderRadius, {color: 'transparent'}]}
+                inputStyle={[styles.iouAmountTextInput, styles.p0, styles.noLeftBorderRadius, styles.noRightBorderRadius, {color: 'transparent', 'caret-color': 'white'}]}
                 textInputContainerStyles={[styles.borderNone, styles.noLeftBorderRadius, styles.noRightBorderRadius]}
                 onChangeText={props.onChangeAmount}
                 ref={props.forwardedRef}
