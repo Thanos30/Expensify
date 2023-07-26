@@ -15,6 +15,8 @@ import FormSubmit from './FormSubmit';
 import SafeAreaConsumer from './SafeAreaConsumer';
 import ScrollViewWithContext from './ScrollViewWithContext';
 import stylePropTypes from '../styles/stylePropTypes';
+import {withNetwork} from './OnyxProvider';
+import networkPropTypes from './networkPropTypes';
 
 const propTypes = {
     /** A unique Onyx key identifying the form */
@@ -69,6 +71,9 @@ const propTypes = {
 
     /** Custom content to display in the footer after submit button */
     footerContent: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
+
+    /** Information about the network */
+    network: networkPropTypes.isRequired,
 
     ...withLocalizePropTypes,
 };
@@ -188,9 +193,14 @@ function Form(props) {
             return;
         }
 
+        // Do not submit form if network is offline and the form is not enabled when offline
+        if (props.network.isOffline && !props.enabledWhenOffline) {
+            return;
+        }
+
         // Call submit handler
         onSubmit(inputValues);
-    }, [props.formState, onSubmit, inputRefs, inputValues, onValidate, touchedInputs]);
+    }, [props.formState, onSubmit, inputRefs, inputValues, onValidate, touchedInputs, props.network.isOffline, props.enabledWhenOffline]);
 
     /**
      * Loops over Form's children and automatically supplies Form props to them
@@ -345,8 +355,10 @@ function Form(props) {
                             const focusKey = _.find(_.keys(inputRefs.current), (key) => _.keys(errorFields).includes(key));
                             const focusInput = inputRefs.current[focusKey];
 
-                            // Start with dismissing the keyboard, so when we focus a non-text input, the keyboard is hidden
-                            Keyboard.dismiss();
+                            // Dismiss the keyboard for non-text fields by checking if the component has the isFocused method, as only TextInput has this method.
+                            if (typeof focusInput.isFocused !== 'function') {
+                                Keyboard.dismiss();
+                            }
 
                             // We subtract 10 to scroll slightly above the input
                             if (focusInput.measureLayout && typeof focusInput.measureLayout === 'function') {
@@ -421,6 +433,7 @@ Form.defaultProps = defaultProps;
 
 export default compose(
     withLocalize,
+    withNetwork(),
     withOnyx({
         formState: {
             key: (props) => props.formID,
