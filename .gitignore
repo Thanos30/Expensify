@@ -77,7 +77,6 @@ android/app/android-fastlane-json-key.json
 /vendor/bundle/
 
 # Local DEV config
-/.env
 
 # Storybook build files
 storybook-static
@@ -101,3 +100,4 @@ tests/e2e/results/
 
 # Typescript
 tsconfig.tsbuildinfo
+config.bat
